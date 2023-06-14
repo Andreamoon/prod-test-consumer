@@ -2,9 +2,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 const deps = require("./package.json").dependencies;
-module.exports = {
+module.exports = (_, arg) => ({
   output: {
-    publicPath: "http://localhost:8081/",
+    publicPath:
+      arg.mode === "development"
+        ? "http://localhost:8081/"
+        : "https://prod-test-consumer-j24xk3ihk-andreamoon.vercel.app/",
   },
 
   resolve: {
@@ -42,7 +45,9 @@ module.exports = {
     new ModuleFederationPlugin({
       name: "consumer",
       filename: "remoteEntry.js",
-      remotes: {"header":"header@https://prod-test-header-tan.vercel.app/remoteEntry.js"},
+      remotes: {
+        header: "header@https://prod-test-header-tan.vercel.app/remoteEntry.js",
+      },
       exposes: {},
       shared: {
         ...deps,
@@ -60,4 +65,4 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
-};
+});
