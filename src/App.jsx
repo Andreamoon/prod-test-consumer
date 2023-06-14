@@ -2,7 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./index.css";
-
-const App = () => <div>Hi there, I'm React from Webpack 5.</div>;
+import Header from "header/Header";
+const App = () => (
+  <div>
+    <Header /> <div> I am a consumer app</div>
+  </div>
+);
 
 ReactDOM.render(<App />, document.getElementById("app"));
